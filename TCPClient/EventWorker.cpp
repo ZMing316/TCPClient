@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace sduept
+namespace zm
 {
 TaskNotification::TaskNotification(std::function<void()> func, std::string name)
   : func_(std::move(func))

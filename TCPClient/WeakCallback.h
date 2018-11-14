@@ -3,14 +3,14 @@
  * \file WeakCallback.h
  *
  * \author ZMing
- * \date °ËÔÂ 2018
+ * \date ï¿½ï¿½ï¿½ï¿½ 2018
  *
  * 
  */
 #include <memory>
 #include <functional>
 
-namespace sduept
+namespace zm
 {
 template <typename CLASS, typename ... ARGS>
 class WeakCallback

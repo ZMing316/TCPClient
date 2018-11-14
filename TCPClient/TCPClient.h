@@ -4,7 +4,7 @@
  * \file TCPClient.h  
  *
  * \author ZMing
- * \date 八月 2018
+ * \date 锟斤拷锟斤拷 2018
  *
  * 
  */
@@ -17,7 +17,7 @@
 #include "DLL.h"
 #include "Noncopyable.h"
 
-namespace sduept
+namespace zm
 {
 class EventWorkerGroup;
 
@@ -42,7 +42,7 @@ public:
   TCPClient(EventLoopGroup& event_loop, EventWorkerGroup& worker_group, const std::string& ip, uint16_t port, int max_high_mark = K_4K * 256);
 
   ~TCPClient();
-  // 应用层如果存在心跳帧 通常不需要传输层keepAlive机制(默认开启)
+
   void enableKeepAlive(bool enable = true);
   void init(const callback::TCPClientCallback& cl);
 

@@ -3,7 +3,7 @@
  * \file EventLoopGroup.h
  *
  * \author ZMing
- * \date °ËÔÂ 2018
+ * \date ï¿½ï¿½ï¿½ï¿½ 2018
  *
  * 
  */
@@ -24,7 +24,7 @@ class SocketReactor;
 class ThreadPool;
 }
 
-namespace sduept
+namespace zm
 {
 class TCPClient;
 

@@ -16,7 +16,7 @@
 #include "EventLoopGroup.h"
 #include "EventWorkerGroup.h"
 
-namespace sduept
+namespace zm 
 {
 struct TCPClient::Impl
 {

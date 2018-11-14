@@ -3,14 +3,14 @@
  * \file DataPacketI.h
  *
  * \author ZMing
- * \date °ËÔÂ 2018
+ * \date ï¿½ï¿½ï¿½ï¿½ 2018
  *
  * 
  */
 #include <functional>
 #include <memory>
 
-namespace sduept
+namespace zm
 {
 namespace NW103
 {

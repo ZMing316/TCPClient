@@ -5,7 +5,7 @@
 #include <Poco/NotificationQueue.h>
 #include <Poco/Runnable.h>
 
-namespace sduept
+namespace zm
 {
 class TaskNotification : public Poco::Notification
 {

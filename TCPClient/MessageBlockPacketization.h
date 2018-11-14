@@ -6,7 +6,7 @@
 #include "WeakCallback.h"
 #include "Common.h"
 
-namespace sduept
+namespace zm
 {
 
 template<typename T>
@@ -28,13 +28,13 @@ public:
     appendDelegate_ = make_unique<WeakCallback<DELEGATE, const std::vector<unsigned char>&, std::vector<Packet>&>>(std::move(callback));
   }
 
-  // ±¾Àý³ÌÖÐµ¥¸öÁ¬½Ó°ó¶¨Ïß³Ì£¬²»ÐèÒªÏß³Ì¼äÍ¬²½£¬Ê¹ÓÃÎÞËø°æ±¾
-  // ·¢Éú·Ö°üÊ§°Ü ·µ»Øflase Ò»°ã²ÉÈ¡¶Ï¿ªÁ¬½ÓµÄ²ßÂÔ
+  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ß³Ì£ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ß³Ì¼ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ±¾
+  // ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½Ê§ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½flase Ò»ï¿½ï¿½ï¿½È¡ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½ÓµÄ²ï¿½ï¿½ï¿½
   bool appendBlock(const std::vector<unsigned char>& block) noexcept;
   bool appendBlockMutex(const std::vector<unsigned char>& block) noexcept;
 
 private:
-  // ¸ºÔð¶Ô TCP ×Ö½ÚÁ÷½øÐÐ·Ö°ü´¦Àí£¬ °´ÕÕË³Ðò ·µ»Ø²ð°ü½á¹û¡£ Èç¹û²»¹¹³ÉÍêÕû°ü ·µ»Ø¿Õ
+  // ï¿½ï¿½ï¿½ï¿½ï¿½ TCP ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð·Ö°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¿ï¿½
 
   template <typename T>
   std::vector<Packet>

@@ -4,7 +4,7 @@
  * \file Callback.h
  *
  * \author ZMing
- * \date °ËÔÂ 2018
+ * \date 2018
  *
  * 
  */
@@ -14,7 +14,7 @@
 #include <vector>
 
 
-namespace sduept
+namespace zm
 {
 class TCPClient;
 
