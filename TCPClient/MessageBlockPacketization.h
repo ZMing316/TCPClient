@@ -28,13 +28,13 @@ public:
     appendDelegate_ = make_unique<WeakCallback<DELEGATE, const std::vector<unsigned char>&, std::vector<Packet>&>>(std::move(callback));
   }
 
-  // �������е������Ӱ��̣߳�����Ҫ�̼߳�ͬ����ʹ�������汾
-  // �����ְ�ʧ�� ����flase һ���ȡ�Ͽ����ӵĲ���
+  // 本例程中单个连接绑定线程，不需要线程间同步，使用无锁版本
+  // 发生分包失败 返回flase 一般采取断开连接的策略
   bool appendBlock(const std::vector<unsigned char>& block) noexcept;
   bool appendBlockMutex(const std::vector<unsigned char>& block) noexcept;
 
 private:
-  // ����� TCP �ֽ������зְ����� ����˳�� ���ز������� ��������������� ���ؿ�
+// 负责对 TCP 字节流进行分包处理， 按照顺序 返回拆包结果。 如果不构成完整包 返回空
 
   template <typename T>
   std::vector<Packet>

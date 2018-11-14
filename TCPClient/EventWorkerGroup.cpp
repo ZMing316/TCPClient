@@ -43,12 +43,12 @@ EventWorkerGroup::~EventWorkerGroup()
 void
   EventWorkerGroup::dispatchEvent(const callback::TcpConnectionPtr& client, std::function<void()> functor)
 {
-  // ���� TCP ID �� Callback  �����߳�
+  // 根据 TCP ID 绑定 Callback  工作线程
   constexpr auto K_MAX_UNPROCESSED_NOTIFICATION_UPPER = 5;
   const auto queue_sn = client->id() % impl_->workers.size();
   if (impl_->notification_queues[queue_sn].size() > K_MAX_UNPROCESSED_NOTIFICATION_UPPER)
   {
-      std::cerr << Poco::format(u8"[%4d]�Ŷ��б�ռ��!", queue_sn) << std::endl;
+    std::cerr << Poco::format(u8"[%4d]号队列被占用!", queue_sn) << std::endl;
   }
   impl_->notification_queues[queue_sn].enqueueNotification(new TaskNotification(std::move(functor)));
 
