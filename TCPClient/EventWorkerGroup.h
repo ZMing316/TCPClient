@@ -6,7 +6,7 @@
 #include "Callback.h"
 #include "DLL.h"
 
-namespace zm
+namespace sduept
 {
 class API EventWorkerGroup final
 {

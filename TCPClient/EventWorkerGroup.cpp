@@ -11,7 +11,7 @@
 #include "TCPClient.h"
 
 
-namespace zm
+namespace sduept
 {
 struct EventWorkerGroup::Impl
 {
@@ -43,12 +43,12 @@ EventWorkerGroup::~EventWorkerGroup()
 void
   EventWorkerGroup::dispatchEvent(const callback::TcpConnectionPtr& client, std::function<void()> functor)
 {
-  // 鏍规嵁 TCP ID 缁戝畾 Callback  宸ヤ綔绾跨▼
+  // 根据 TCP ID 绑定 Callback  工作线程
   constexpr auto K_MAX_UNPROCESSED_NOTIFICATION_UPPER = 5;
   const auto queue_sn = client->id() % impl_->workers.size();
   if (impl_->notification_queues[queue_sn].size() > K_MAX_UNPROCESSED_NOTIFICATION_UPPER)
   {
-    std::cerr << Poco::format(u8"[%4d]鍙烽槦鍒楄鍗犵敤!", queue_sn) << std::endl;
+      std::cerr << Poco::format(u8"[%04z]号队列被占用!\n", queue_sn);
   }
   impl_->notification_queues[queue_sn].enqueueNotification(new TaskNotification(std::move(functor)));
 
@@ -69,7 +69,6 @@ void
 {
   for (auto& queue : impl_->notification_queues)
   {
-    queue.enqueueNotification(nullptr);
     queue.wakeUpAll();
   }
 

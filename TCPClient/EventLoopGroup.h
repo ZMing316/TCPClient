@@ -3,7 +3,7 @@
  * \file EventLoopGroup.h
  *
  * \author ZMing
- * \date ï¿½ï¿½ï¿½ï¿½ 2018
+ * \date °ËÔÂ 2018
  *
  * 
  */
@@ -24,7 +24,7 @@ class SocketReactor;
 class ThreadPool;
 }
 
-namespace zm
+namespace sduept
 {
 class TCPClient;
 
@@ -45,7 +45,7 @@ public:
    */
   explicit EventLoopGroup(int size);
   ~EventLoopGroup();
-  std::unique_ptr<Loop> reactor();
+  std::unique_ptr<Loop> reactor() const;
 
   void loop();
   void quit();

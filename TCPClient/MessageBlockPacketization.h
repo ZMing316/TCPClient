@@ -6,35 +6,35 @@
 #include "WeakCallback.h"
 #include "Common.h"
 
-namespace zm
+namespace sduept
 {
 
 template<typename T>
 struct identity { typedef T type; };
 
-template <typename CLASS, typename DELEGATE = void>
+template <typename DISPATCHER, typename DELEGATE = void>
 class MessageBlockPacketization
 {
 public:
   using Packet = std::vector<unsigned char>;
 
-  MessageBlockPacketization(WeakCallback<CLASS, std::vector<unsigned char>&&> callback);
+  MessageBlockPacketization(WeakCallback<DISPATCHER, std::vector<unsigned char>&&> callback);
 
   ~MessageBlockPacketization() = default;
 
-  typename std::enable_if<!std::is_same<DELEGATE, void>::value, void>::type
+  void 
     delegate(WeakCallback<DELEGATE, const std::vector<unsigned char>&, std::vector<Packet>&>&& callback)
   {
     appendDelegate_ = make_unique<WeakCallback<DELEGATE, const std::vector<unsigned char>&, std::vector<Packet>&>>(std::move(callback));
   }
 
-  // æœ¬ä¾‹ç¨‹ä¸­å•ä¸ªè¿æ¥ç»‘å®šçº¿ç¨‹ï¼Œä¸éœ€è¦çº¿ç¨‹é—´åŒæ­¥ï¼Œä½¿ç”¨æ— é”ç‰ˆæœ¬
-  // å‘ç”Ÿåˆ†åŒ…å¤±è´¥ è¿”å›flase ä¸€èˆ¬é‡‡å–æ–­å¼€è¿æ¥çš„ç­–ç•¥
+  // ±¾Àı³ÌÖĞµ¥¸öÁ¬½Ó°ó¶¨Ïß³Ì£¬²»ĞèÒªÏß³Ì¼äÍ¬²½£¬Ê¹ÓÃÎŞËø°æ±¾
+  // ·¢Éú·Ö°üÊ§°Ü ·µ»Øflase Ò»°ã²ÉÈ¡¶Ï¿ªÁ¬½ÓµÄ²ßÂÔ
   bool appendBlock(const std::vector<unsigned char>& block) noexcept;
   bool appendBlockMutex(const std::vector<unsigned char>& block) noexcept;
 
 private:
-// è´Ÿè´£å¯¹ TCP å­—èŠ‚æµè¿›è¡Œåˆ†åŒ…å¤„ç†ï¼Œ æŒ‰ç…§é¡ºåº è¿”å›æ‹†åŒ…ç»“æœã€‚ å¦‚æœä¸æ„æˆå®Œæ•´åŒ… è¿”å›ç©º
+  // ¸ºÔğ¶Ô TCP ×Ö½ÚÁ÷½øĞĞ·Ö°ü´¦Àí£¬ °´ÕÕË³Ğò ·µ»Ø²ğ°ü½á¹û¡£ Èç¹û²»¹¹³ÉÍêÕû°ü ·µ»Ø¿Õ
 
   template <typename T>
   std::vector<Packet>
@@ -56,38 +56,36 @@ private:
   }
 
   std::mutex mutex_;
-  WeakCallback<CLASS, std::vector<unsigned char>&&> messageCallback_;
+  WeakCallback<DISPATCHER, std::vector<unsigned char>&&> messageCallback_;
   std::unique_ptr<WeakCallback<DELEGATE, const std::vector<unsigned char>&, std::vector<Packet>&>> appendDelegate_{};
 };
 
-template <typename CLASS, typename DELEGATE>
-MessageBlockPacketization<CLASS, DELEGATE>::MessageBlockPacketization(WeakCallback<CLASS, std::vector<unsigned char>&&> callback)
+template <typename DISPATCHER, typename DELEGATE>
+MessageBlockPacketization<DISPATCHER, DELEGATE>::MessageBlockPacketization(WeakCallback<DISPATCHER, std::vector<unsigned char>&&> callback)
   : messageCallback_(std::move(callback))
 { }
 
-template <typename CLASS, typename DELEGATE>
+template <typename DISPATCHER, typename DELEGATE>
 bool
-  MessageBlockPacketization<CLASS, DELEGATE>::appendBlock(const std::vector<unsigned char>& block) noexcept
+  MessageBlockPacketization<DISPATCHER, DELEGATE>::appendBlock(const std::vector<unsigned char>& block) noexcept
 {
   try
   {
-    auto packets = appendBlockImpl(block, identity<DELEGATE>());
-    for (auto& packet : packets)
+    for (auto&& packet : appendBlockImpl(block, identity<DELEGATE>()))
     {
       messageCallback_(std::move(packet));
     }
   }
   catch (const std::exception& ex)
   {
-    std::cerr << ex.what() << std::endl;
     return false;
   }
   return true;
 }
 
-template <typename CLASS, typename DELEGATE>
+template <typename DISPATCHER, typename DELEGATE>
 bool
-  MessageBlockPacketization<CLASS, DELEGATE>::appendBlockMutex(const std::vector<unsigned char>& block) noexcept
+  MessageBlockPacketization<DISPATCHER, DELEGATE>::appendBlockMutex(const std::vector<unsigned char>& block) noexcept
 {
   std::lock_guard<std::mutex> lock(mutex_);
   return appendBlock(block);

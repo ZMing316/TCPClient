@@ -1,8 +1,9 @@
 #include "EventWorker.h"
 
-#include <iostream>
+#include "Common.h"
 
-namespace zm
+
+namespace sduept
 {
 TaskNotification::TaskNotification(std::function<void()> func, std::string name)
   : func_(std::move(func))
@@ -10,7 +11,7 @@ TaskNotification::TaskNotification(std::function<void()> func, std::string name)
 {}
 
 void
-  TaskNotification::operator()() noexcept
+  TaskNotification::operator()() const noexcept
 {
   try
   {
@@ -18,7 +19,7 @@ void
   }
   catch (const std::exception& ex)
   {
-    std::cerr << ex.what() << std::endl;
+    MY_HANDLE(ex.what());
   }
 }
 
@@ -33,8 +34,11 @@ void
 
   while (!notification_ptr.isNull())
   {
-    const auto func = static_cast<TaskNotification*>(notification_ptr.get());
-    (*func)();
+    const auto func = dynamic_cast<TaskNotification*>(notification_ptr.get());
+    if (func)
+    {
+      (*func)();
+    }
     notification_ptr = queue_.waitDequeueNotification();
   }
 }

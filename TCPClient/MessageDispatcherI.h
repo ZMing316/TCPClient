@@ -9,11 +9,11 @@
  * \file MessageDispatcherI.h
  *
  * \author ZMing
- * \date ï¿½ï¿½ï¿½ï¿½ 2018
+ * \date °ËÔÂ 2018
  *
  * 
  */
-namespace zm
+namespace sduept
 {
 class MessageDispatcherI
 {

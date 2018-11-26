@@ -5,7 +5,7 @@
 #include <Poco/NotificationQueue.h>
 #include <Poco/Runnable.h>
 
-namespace zm
+namespace sduept
 {
 class TaskNotification : public Poco::Notification
 {
@@ -18,7 +18,7 @@ public:
     return name_;
   }
 
-  void operator()() noexcept;
+  void operator()() const noexcept;
 
 protected:
   ~TaskNotification() override = default;

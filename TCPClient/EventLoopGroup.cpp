@@ -10,7 +10,7 @@
 
 #include "Common.h"
 
-namespace zm
+namespace sduept
 {
 struct EventLoopGroup::Impl
 {
@@ -54,7 +54,7 @@ EventLoopGroup::~EventLoopGroup()
 }
 
 std::unique_ptr<EventLoopGroup::Loop>
-  EventLoopGroup::reactor()
+  EventLoopGroup::reactor() const
 {
   using type = decltype(impl_->reactors)::value_type;
 
@@ -69,7 +69,7 @@ std::unique_ptr<EventLoopGroup::Loop>
 }
 
 void
-  EventLoopGroup::loop()
+  EventLoopGroup::loop() 
 {
   for (auto& reactor : impl_->reactors)
   {
@@ -78,7 +78,7 @@ void
 }
 
 void
-  EventLoopGroup::quit()
+  EventLoopGroup::quit() 
 {
   for (auto& reactor : impl_->reactors)
   {
